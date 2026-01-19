@@ -13,7 +13,7 @@ const productSchema = new Schema({
     stock: Number
 },{
     timestamps: true,
-    versionKey
+    versionKey: false
 });
 
 export default model('product', productSchema);
