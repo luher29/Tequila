@@ -5,9 +5,15 @@ const notesDAOs = {};
 
 // Obtener todas las notas con información detallada
 notesDAOs.getAll = async () => {
-    return await notes.find()
-        .populate('distributor', 'name')
-        .populate('departureProduct.producto', 'name price piecesPerBox');
+    try {
+        // Asegúrate de importar tu modelo Note al inicio del archivo
+        return await notes.find()
+            .populate('distributors', 'name') // Debe coincidir con el campo en tu Schema
+            .populate('products', 'name')    // Debe coincidir con el campo en tu Schema
+            .sort({ createdAt: -1 });
+    } catch (error) {
+        throw new Error("Error en el DAO al poblar datos: " + error.message);
+    }
 };
 
 // Obtener una sola nota

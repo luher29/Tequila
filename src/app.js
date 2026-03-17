@@ -1,4 +1,4 @@
-//Aquí se genera la instancia de express (la pura configuración, no se inicializa)
+//Aquí se genera la instancia de express y se configuran los middlewares y las rutas
 import express from 'express';
 import morgan from 'morgan';
 //*import ejs from 'ejs';

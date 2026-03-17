@@ -7,5 +7,6 @@ router.get('/getAll', notesControllers.getAll);
 router.get('/getOne/:numberNote', notesControllers.getOne);
 router.post('/insertOne', notesControllers.insertOne);
 router.put('/updateOne/:numberNote', notesControllers.updateOne);
+router.get('/getAllDetailed', notesControllers.getAll);
 
 export default router;

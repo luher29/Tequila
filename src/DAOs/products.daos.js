@@ -1,41 +1,31 @@
-import products from "../models/products.js";
+import Product from "../models/products.js"; // Asegúrate de que el nombre coincida
 
-const productsDAO = {};
+const productsDaos = {};
 
-// Obtener todos los productos
-productsDAO.getAll = async () => {
-    // Usamos 'allProducts' para no chocar con el nombre del modelo 'products'
-    const allProducts = await products.find();
-    return allProducts;
+// Obtener todos los tequilas
+productsDaos.getAll = async () => {
+    return await Product.find();
 };
 
-// Obtener un producto por su código de barras
-productsDAO.getOne = async (codeBar) => {
-    const productFound = await products.findOne({ codeBar: codeBar });
-    return productFound;
+// Obtener un solo tequila por su ID de MongoDB
+productsDaos.getOne = async (id) => {
+    return await Product.findById(id);
 };
 
-// Insertar un nuevo producto
-productsDAO.insertOne = async (productData) => {
-    const newProduct = await products.create(productData);
-    return newProduct;
+// Insertar un nuevo tequila (Solo para el Admin)
+productsDaos.insertOne = async (productData) => {
+    return await Product.create(productData);
 };
 
-// Actualizar un producto
-productsDAO.updateOne = async (codeBar, productData) => {
-    // findOneAndUpdate devuelve el objeto antes de ser actualizado por defecto
-    const updatedProduct = await products.findOneAndUpdate(
-        { codeBar: codeBar }, 
-        productData,
-        { new: true } // Esta opción hace que devuelva el objeto ya actualizado
-    );
-    return updatedProduct;
+// Actualizar un producto o el stock (Suma de piezas)
+productsDaos.updateOne = async (id, updateData) => {
+    // El tercer parámetro {new: true} devuelve el objeto ya actualizado
+    return await Product.findByIdAndUpdate(id, updateData, { new: true });
 };
 
-// Eliminar un producto
-productsDAO.deleteOne = async (codeBar) => {
-    const deletedProduct = await products.findOneAndDelete({ codeBar: codeBar });
-    return deletedProduct;
+// Eliminar un producto del catálogo
+productsDaos.deleteOne = async (id) => {
+    return await Product.findByIdAndDelete(id);
 };
 
-export default productsDAO;
+export default productsDaos;

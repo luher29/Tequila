@@ -2,7 +2,7 @@ import productsDaos from "../DAOs/products.daos.js";
 
 const productsControllers = {};
 
-// Obtener todos los productos
+// Obtener todos los productos (Inventario)
 productsControllers.getAll = (req, res) => {
     productsDaos.getAll()
         .then((products) => {
@@ -20,9 +20,9 @@ productsControllers.getAll = (req, res) => {
         });
 };
 
-// Obtener un solo producto por código de barras
+// Obtener un solo producto por ID 
 productsControllers.getOne = (req, res) => {
-    productsDaos.getOne(req.params.codeBar)
+    productsDaos.getOne(req.params.id) 
         .then((product) => {
             if (product != null) {
                 res.status(200).json({
@@ -45,7 +45,29 @@ productsControllers.getOne = (req, res) => {
         });
 };
 
-// Insertar un nuevo producto
+// Actualizar Stock (Específica para el Administrador)
+productsControllers.updateStock = (req, res) => {
+    const { id } = req.params;
+    const { newStock } = req.body;
+    
+    productsDaos.updateOne(id, { stock: newStock }) 
+        .then((updatedProduct) => {
+            res.status(200).json({
+                success: true,
+                message: "Stock actualizado correctamente",
+                data: updatedProduct
+            });
+        })
+        .catch((err) => {
+            res.status(500).json({
+                success: false,
+                message: "Error al actualizar stock",
+                error: err.message
+            });
+        });
+};
+
+// Insertar un nuevo producto (Registro de nuevos tequilas por el Admin)
 productsControllers.insertOne = async (req, res) => {
     productsDaos.insertOne(req.body)
         .then((newProduct) => {
@@ -64,9 +86,9 @@ productsControllers.insertOne = async (req, res) => {
         });
 };
 
-// Actualizar un producto existente
+// Actualizar un producto existente (Edición completa)
 productsControllers.updateOne = async (req, res) => {
-    productsDaos.updateOne(req.params.codeBar, req.body)
+    productsDaos.updateOne(req.params.id, req.body)
         .then((updatedProduct) => {
             if (updatedProduct) {
                 res.status(200).json({
@@ -83,16 +105,16 @@ productsControllers.updateOne = async (req, res) => {
         })
         .catch((error) => {
             res.status(500).json({ 
-                success: false,
+                success: false, 
                 message: "Error en la actualización",
                 error: error.message 
             });
         });
 };
 
-// Eliminar un producto
+// Eliminar un producto (Baja del catálogo por el Admin)
 productsControllers.deleteOne = async (req, res) => {
-    productsDaos.deleteOne(req.params.codeBar)
+    productsDaos.deleteOne(req.params.id)
         .then((productDeleted) => {
             if (productDeleted) {
                 res.status(200).json({
