@@ -1,4 +1,4 @@
-import {model,Schema} from 'mongoose';
+import { model, Schema } from 'mongoose';
 
 const productSchema = new Schema({
     codeBar: {
@@ -8,12 +8,16 @@ const productSchema = new Schema({
     },
     name: String,
     brand: String,
-    price : Number,
+    price: Number,
     piecesPerBox: Number,
-    stock: Number
-},{
+    stock: Number,
+    image: {
+        type: String,
+        default: null
+    }
+}, {
     timestamps: true,
-    versionKey
+    versionKey: false
 });
 
-export default model('product', productSchema);
+export default model('product', productSchema);

@@ -1,30 +1,32 @@
-import products  from "../models/products";
+import Product from "../models/products.js";
 
 const productsDAO = {};
 
 productsDAO.getAll = async () => {
-    const products = await products.find();
-    return products;
+    return await Product.find();
 };
 
 productsDAO.getOne = async (codeBar) => {
-    return await products.findOne({ codeBar: codeBar });
+    return await Product.findOne({ codeBar: codeBar });
 };
 
 productsDAO.insertOne = async (productData) => {
-    const newProduct = await products.create(productData);
+    const newProduct = await Product.create(productData);
     return newProduct;
 };
 
 productsDAO.updateOne = async (codeBar, productData) => {
-    const updateProduct = await products.findOneAndUpdate({ codeBar: codeBar }, productData);
+    const updateProduct = await Product.findOneAndUpdate(
+        { codeBar: codeBar },
+        productData,
+        { new: true }
+    );
     return updateProduct;
 };
 
-productsDAO.deleteOne = async (codeBar) =>{
-    const deleteProduct = await products.findOneAndDelete({codeBar:codeBar});
+productsDAO.deleteOne = async (codeBar) => {
+    const deleteProduct = await Product.findOneAndDelete({ codeBar: codeBar });
     return deleteProduct;
+};
 
-}
-
-export default productsDAO
+export default productsDAO;
