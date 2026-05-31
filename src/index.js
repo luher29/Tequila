@@ -4,5 +4,5 @@ import app from "./app.js";
 
 //Start server
 app.listen(app.get("port"), () =>
-    console.log("Server Listening on http://localhost:" + app.get("port") + "/api/students/getAll"
+    console.log("🚀 Server Listening on http://localhost:" + app.get("port") + "/api"
     ));
