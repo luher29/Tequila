@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
+import "dotenv/config";
 
-mongoose.connect("mongodb+srv://lupita29:luher29@lupita.vup0axr.mongodb.net/tequila_bd?retryWrites=true&w=majority&appName=Lupita")
+const URI = process.env.MONGODB_URI;
+
+mongoose.connect(URI)
 //then para responder que si hubo connecion
 .then(()=>console.log("✅ MongoDB conectado a tequila_bd"))
 //catch si hubo un error 

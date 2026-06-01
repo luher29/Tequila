@@ -4,12 +4,13 @@
  * Ejecutar con: node src/clean.js
  */
 import mongoose from 'mongoose';
+import 'dotenv/config';
 import Product from './models/products.js';
 import Distributor from './models/distributors.js';
 import Note from './models/notes.js';
 import Entrada from './models/mermas.js';
 
-await mongoose.connect("mongodb+srv://lupita29:luher29@lupita.vup0axr.mongodb.net/tequila_bd?retryWrites=true&w=majority&appName=Lupita");
+await mongoose.connect(process.env.MONGODB_URI);
 console.log("✅ Conectado a tequila_bd");
 
 try {
