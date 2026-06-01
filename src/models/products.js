@@ -10,7 +10,8 @@ const productSchema = new Schema({
     brand: String,
     price : Number,
     piecesPerBox: Number,
-    stock: Number
+    stock: Number,
+    image: String
 },{
     timestamps: true,
     versionKey: false

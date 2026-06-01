@@ -43,4 +43,29 @@ entradasDAOs.getByProduct = async (productId) => {
         .sort({ supplyDate: -1 });
 };
 
+// Registrar merma (piezas defectuosas — resta del stock)
+entradasDAOs.registerMerma = async (mermaData) => {
+    const productInfo = await Product.findById(mermaData.producto);
+    if (!productInfo) throw new Error("Producto no encontrado");
+
+    let totalPieces = mermaData.quantity || 0;
+    if (mermaData.boxes && mermaData.boxes > 0) {
+        totalPieces = (mermaData.boxes * (productInfo.piecesPerBox || 1)) + (mermaData.quantity || 0);
+    }
+
+    if (totalPieces > productInfo.stock) {
+        throw new Error(`Stock insuficiente. Stock actual: ${productInfo.stock}, intentas retirar: ${totalPieces}`);
+    }
+
+    mermaData.quantity = totalPieces;
+    mermaData.type = 'merma';
+
+    // RESTAR del stock
+    await Product.findByIdAndUpdate(mermaData.producto, {
+        $inc: { stock: -totalPieces }
+    });
+
+    return await Entrada.create(mermaData);
+};
+
 export default entradasDAOs;

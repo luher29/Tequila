@@ -35,4 +35,15 @@ entradasControllers.getByProduct = (req, res) => {
         });
 };
 
+// Registrar merma (producto defectuoso)
+entradasControllers.registerMerma = async (req, res) => {
+    entradasDAOs.registerMerma(req.body)
+        .then((newMerma) => {
+            res.status(201).json({ success: true, message: "Merma registrada y stock actualizado", data: newMerma });
+        })
+        .catch((error) => {
+            res.status(500).json({ success: false, message: "Error al registrar merma", error: error.message });
+        });
+};
+
 export default entradasControllers;

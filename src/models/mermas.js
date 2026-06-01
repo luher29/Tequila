@@ -25,7 +25,9 @@ const entradaSchema = new Schema({
     supplier: { type: String, default: '' },
     // Nota adicional
     description: { type: String, default: '' },
-    // Quién registró la entrada
+    // Tipo: 'entrada' o 'merma'
+    type: { type: String, enum: ['entrada', 'merma'], default: 'entrada' },
+    // Quién registró
     registeredBy: { type: String, default: 'Admin' }
 }, {
     timestamps: true,
